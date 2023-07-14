@@ -20,22 +20,32 @@
 		</style>
 	</head>
 	
-	<body style="display:flex; height:100%; margin:0; padding:0; justify-content:center; align-items:center">
+	<body style="display:flex; height:100%; margin:0; padding:0; justify-content:center; align-items:center; display: block;" >
+	    
 		<span id="clocktext" style="font-kerning:none"></span>
+		
+		<span id="datetext" style="font-kerning:none"></span>
 		
 		<script>
 			"use strict";
 			
 			let textElem = document.getElementById("clocktext");
+			let textElemDate = document.getElementById("datetext");
 			const targetWidth = 0.9;  // Proportion of full screen width
+			const targetWidthDate = 0.6;
 			let curFontSize = 20;  // Do not change
 			
 			function updateClock() {
 				const d = new Date();
 				let s = "";
+				let ds = "";
 				s += (10 > d.getHours  () ? "0" : "") + d.getHours  () + ":";
 				s += (10 > d.getMinutes() ? "0" : "") + d.getMinutes();
+				ds += (10 > d.getDate  () ? "0" : "") + d.getDate  () + ":";
+				ds += (10 > d.getMonth  () ? "0" : "") + d.getMonth  () + ":";
+				ds += d.getYear()+1900;
 				textElem.textContent = s;
+				textElemDate.textContent = ds;
 				setTimeout(updateClock, 60000 - d.getTime() % 60000 + 100);
 			}
 			
@@ -43,6 +53,10 @@
 				for (let i = 0; 3 > i; i++) {  // Iterate for better better convergence
 					curFontSize *= targetWidth / (textElem.offsetWidth / textElem.parentNode.offsetWidth);
 					textElem.style.fontSize = curFontSize + "pt";
+				}
+				for (let i = 0; 3 > i; i++) {  // Iterate for better better convergence
+					curFontSize *= targetWidthDate / (textElem.offsetWidth / textElem.parentNode.offsetWidth);
+					textElemDate.style.fontSize = curFontSize + "pt";
 				}
 			}
 			
